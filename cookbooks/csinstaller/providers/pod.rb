@@ -50,13 +50,15 @@ action :setup do
     elsif
       response = send_request({
         "zoneid" => zone_id,
+        "hypervisor" => cluster["hypervisor"],
         "command" => "addCluster",
         "clustertype" => "CloudManaged",
-        "podId" => podid
+        "podId" => podid,
+        "clustername" => cluster['clustername']
       })
 
-      cluster.hosts.each do |host|
-        response = send_request(
+      cluster["hosts"].each do |host|
+        send_request(
         {
           "zoneid" => zone_id,
           "command" => "addHost",
