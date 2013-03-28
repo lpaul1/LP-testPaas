@@ -9,7 +9,7 @@ recipe            'cs_installer:mgmt_server', "Setup the Management Server corre
 recipe            'cs_installer:setup_zone', "Setup the CloudPlatform Environment(Zone)"
 
 supports          'centos', '>= 6.2'
-supports          'rhel', '>=6.2'
+supports          'rhel', '>= 6.2'
 
 depends           'selinux'
 depends           'ntp'
