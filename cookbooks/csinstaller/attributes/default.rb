@@ -37,18 +37,26 @@ default['zone']['pods'] = [
     "end_ip" => "192.168.100.90",
     "clusters" => [{
        "primary_storages" => [{
-              "name" => "nfs-4",
+              "name" => "nfs-1",
               "nfs_server" => "192.168.100.229",
-              "path" => "/media/usbdrive/nfs4"
+              "path" => "/media/usbdrive/nfs1"
 
       }],
-      "hypervisor" => "VMware",
-      "username" => "Administrator",
-      "password" => "fr3sca",
-      "vcenter_host" => "192.168.100.174",
-      "vcenter_datacenter" => "Pune-Opscode-001",
-      "vcenter_cluster" => "Cluster-001",
+      # "hypervisor" => "VMware",
+      # "username" => "Administrator",
+      # "password" => "fr3sca",
+      # "vcenter_host" => "192.168.100.174",
+      # "vcenter_datacenter" => "Pune-Opscode-001",
+      # "vcenter_cluster" => "Cluster-001",
+      "clustername" => "XenCluster-001",
+      "hypervisor" => "XenServer",
 
+      "hosts" => [{
+        "ipaddress" => "192.168.100.210",
+        "username" => "root",
+        "password" => "fr3sca",
+        "hosttags" => "",
+        }]
     }]
 }
 ]
@@ -71,7 +79,7 @@ default['zone']['public_ip_ranges'] = [{
 default['zone']['sec_storages'] = [
   {
     "nfs_server" => "192.168.100.229",
-    "path" => "/media/usbdrive/nfs3"
+    "path" => "/media/usbdrive/nfs2"
   }
 
 ]

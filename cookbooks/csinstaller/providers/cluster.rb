@@ -19,7 +19,7 @@ include Opscode::Cloudstack::Admin
 
 action :setup do
 
- # if new_resource.hypervisor == "VMWare"
+  if new_resource.hypervisor == "VMWare"
     response = send_request(
     {
     "zoneid" => new_resource.zone_id,
@@ -32,5 +32,14 @@ action :setup do
     "clustername" => "http://#{new_resource.vcenter_host}/#{new_resource.vcenter_datacenter}/#{new_resource.vcenter_cluster}",
     "hypervisor" => new_resource.hypervisor
     })
+ elsif new_resource.hypervisor == "XenServer"
+    response = send_request(
+    {
+    "zoneid" => new_resource.zone_id,
+    "command" => "addCluster",
+    "clustertype" => "CloudManaged",
+    "podId" => new_resource.pod_id
+    })
+  end
 
 end

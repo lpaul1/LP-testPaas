@@ -1,4 +1,4 @@
-maintainer       "YOUR_COMPANY_NAME"
+maintainer       "Opscode, Inc"
 maintainer_email "YOUR_EMAIL"
 license          "All rights reserved"
 description      "Installs/Configures hello_app"

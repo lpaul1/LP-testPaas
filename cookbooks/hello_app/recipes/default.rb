@@ -2,7 +2,7 @@
 # Cookbook Name:: hello_app
 # Recipe:: default
 #
-# Copyright 2013, YOUR_COMPANY_NAME
+# Copyright 2013, Opscode, Inc
 #
 # All rights reserved - Do Not Redistribute
 #

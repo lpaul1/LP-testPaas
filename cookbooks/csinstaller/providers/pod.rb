@@ -34,18 +34,43 @@ action :setup do
 
   new_resource.clusters.each do |cluster|
     podid = response["pod"]["id"]
-    response = send_request(
-      {
+    if cluster['hypervisor'] == "VMWare"
+      response = send_request(
+        {
+          "zoneid" => zone_id,
+          "command" => "addCluster",
+          "clustertype" => "ExternalManaged",
+          "podId" => podid,
+          "username" => cluster['username'],
+          "password" => cluster['password'],
+          "url" => "http://#{cluster['vcenter_host']}/#{cluster['vcenter_datacenter']}/#{cluster['vcenter_cluster']}",
+          "clustername" => "http://#{cluster['vcenter_host']}/#{cluster['vcenter_datacenter']}/#{cluster['vcenter_cluster']}",
+          "hypervisor" => cluster['hypervisor']
+        })
+    elsif
+      response = send_request({
         "zoneid" => zone_id,
         "command" => "addCluster",
-        "clustertype" => "ExternalManaged",
-        "podId" => podid,
-        "username" => cluster['username'],
-        "password" => cluster['password'],
-        "url" => "http://#{cluster['vcenter_host']}/#{cluster['vcenter_datacenter']}/#{cluster['vcenter_cluster']}",
-        "clustername" => "http://#{cluster['vcenter_host']}/#{cluster['vcenter_datacenter']}/#{cluster['vcenter_cluster']}",
-        "hypervisor" => cluster['hypervisor']
+        "clustertype" => "CloudManaged",
+        "podId" => podid
       })
+
+      cluster.hosts.each do |host|
+        response = send_request(
+        {
+          "zoneid" => zone_id,
+          "command" => "addHost",
+          "podid" => podid,
+          "clusterid" => response['cluster'].first['id'],
+          "hosttags" => host["hosttags"],
+          "hypervisor" => cluster["hypervisor"],
+          "clustertype" => "CloudManaged",
+          "url" => "http://#{host["ipaddress"]}",
+          "username" => host["username"],
+          "password" => host["password"]
+        })
+      end
+    end
 
     Chef::Log.info("Primary storage: #{cluster}")
     if cluster['primary_storages']
