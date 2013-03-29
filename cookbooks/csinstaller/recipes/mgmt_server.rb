@@ -25,22 +25,26 @@
 script "install_mgmt_server" do
   interpreter "bash"
   user "root"
-  cwd "/tmp"
+  cwd node['cloudstack_tempdir']
   code <<-EOH
-  wget -c -nc #{node["download_url"]}/CloudStack-#{node["cloudstack_version"]}.tar.gz
-
-  tar -zxf CloudStack-#{node["cloudstack_version"]}.tar.gz
+  tar -zxf #{node["cloudstack_installer"]}
   cd CloudStack-#{node["cloudstack_version"]}
   ./install.sh -m
   EOH
 end
 
+#
+# Install packages rpcbind, nfs-utils, nfs-utils-lib
+#
 %w{rpcbind nfs-utils nfs-utils-lib
   }.each do |package_name|
     yum_package package_name do
     end
   end
 
+#
+# Enable and start rpcbind and nfs services (if required).
+#
 [
   "rpcbind", "nfs"
 ].each do |service_name|
@@ -49,26 +53,42 @@ end
   end
 end
 
+#
+# cloud-setup-databases script will login to mysql instance and create required tables.
+# Note: at this point Chef has already deployed/configured mysql (using mysql cookbook as a dependency).
+#
 execute "cloud-setup-databases" do
   command "cloud-setup-databases cloud:#{node['mysql']['server_root_password']}@localhost --deploy-as=root:#{node['mysql']['server_root_password']}"
 end
 
+#
+# This script will setup iptables, sudoers, and the management server.
+#
 execute 'cloud-setup-management' do
   command "cloud-setup-management"
 end
 
-directory '/mnt/secondary' do
-  owner "root"
-  group "root"
-  not_if do FileTest.directory? "/mnt/secondary" end
-end
+#
+# Create directory for NFS mount.
+#
+#directory '/mnt/secondary' do
+#  owner "root"
+#  group "root"
+#  not_if do FileTest.directory? "/mnt/secondary" end
+#end
 
-mount '/mnt/secondary' do
-  fstype 'nfs'
-  device "#{node['zone']['sec_storages'].first['nfs_server']}:#{node['zone']['sec_storages'].first['path']}"
-  action :mount
-end
+#
+# Mount secondary storage - NFS should be preconfigured.
+#
+#mount '/mnt/secondary' do
+#  fstype 'nfs'
+#  device "#{node['zone']['sec_storages'].first['nfs_server']}:#{node['zone']['sec_storages'].first['path']}"
+#  action :mount
+#end
 
+#
+# Download and install system VM.
+#
 script "install system VM template" do
   interpreter "bash"
   user "root"
@@ -107,11 +127,11 @@ end
     EOH
   end
 
-mount '/mnt/secondary' do
-  fstype 'nfs'
-  device "#{node['zone']['sec_storages'].first['nfs_server']}:#{node['zone']['sec_storages'].first['path']}"
-  action :umount
-end
+#mount '/mnt/secondary' do
+#  fstype 'nfs'
+#  device "#{node['zone']['sec_storages'].first['nfs_server']}:#{node['zone']['sec_storages'].first['path']}"
+#  action :umount
+#end
 
 service 'cloud-management' do
   action [:start]
