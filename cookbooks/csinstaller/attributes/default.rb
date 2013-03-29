@@ -15,7 +15,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-default['cloudstack_version'] = "3.0.6-0.4320-rhel6.2"
+
+# We are currently using the trial version for testing.  Will likely need to be changed shortly.
+default['cloudstack_trial'] = "3.0.6.1-trial-rhel6.2"
+default['cloudstack_version'] = "3.0.6-1-rhel6.2"
+default['cloudstack_installer'] = "/home/lp03306/CloudStack-#{default['cloudstack_trial']}.tar.gz"
+default['cloudstack_tempdir'] = "/tmp"
+
 default['download_url'] = "http://localhost"
 default['zone']['name'] = "Opscode-Zone-001"
 default['zone']['network_type'] = 'Advanced'
