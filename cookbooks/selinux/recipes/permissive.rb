@@ -18,6 +18,9 @@
 # limitations under the License.
 #
 
+# install libselinux-utils which provides getenforce tool (used below)
+include_recipe 'selinux::default'
+
 execute "enable selinux as permissive" do
   not_if "getenforce | egrep -qx 'Permissive|Disabled'"
   command "setenforce 0"
