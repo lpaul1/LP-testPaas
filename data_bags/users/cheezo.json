@@ -1,0 +1,7 @@
+{
+        "id": "jkg",
+        "ssh_keys": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAvMvqRFJEIVLtQoqglFAoxIE/FEWBFYUqlJOsM59vDzN+7HVw3LWDIeJTD3qFd1ur57X6pEep3YH0aNvR3PRGp/5rdovkcY2EGycmFBJhya+ywEMFOSUW7s55+BG32oolSt4/x6TnteKIbu1XuN1U5ELXkTMRJyahZoZLGnIjuSscYmBps2stnfLcyB4UMOTfKBBUQnsCroR4gXtP9k/ByACEl8wp2spAMu54nCKANuzPYareZERZqO5hqwiapg3Wxx+KRHmmkTKTIUmsn3p8TpSc3JGQuInqIUWo4Q2gNTR7IAVGKt8Tna77O6l9Kdg6KVPQSmEoQROvBNNopDDnXw== root@NMS5.qa.racemi.com",
+        "groups": [ "sysadmin", "dba", "devops" ],
+        "uid": 2001,
+        "shell": "\/bin\/bash"
+}

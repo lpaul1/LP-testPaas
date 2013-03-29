@@ -15,10 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-default['cloudstack_trial'] = "3.0.6.1-trial-rhel6.2"
-default['cloudstack_version'] = "3.0.6-1-rhel6.2"
-default['cloudstack_installer'] = "/home/lp03306/CloudStack-#{default['cloudstack_trial']}.tar.gz"
-default['cloudstack_tempdir'] = "/tmp"
+default['cloudstack_version'] = "3.0.6-0.4320-rhel6.2"
 default['download_url'] = "http://localhost"
 default['zone']['name'] = "Opscode-Zone-001"
 default['zone']['network_type'] = 'Advanced'
@@ -40,18 +37,26 @@ default['zone']['pods'] = [
     "end_ip" => "192.168.100.90",
     "clusters" => [{
        "primary_storages" => [{
-              "name" => "nfs-4",
+              "name" => "nfs-1",
               "nfs_server" => "192.168.100.229",
-              "path" => "/media/usbdrive/nfs4"
+              "path" => "/media/usbdrive/nfs1"
 
       }],
-      "hypervisor" => "VMware",
-      "username" => "Administrator",
-      "password" => "fr3sca",
-      "vcenter_host" => "192.168.100.174",
-      "vcenter_datacenter" => "Pune-Opscode-001",
-      "vcenter_cluster" => "Cluster-001",
+      # "hypervisor" => "VMware",
+      # "username" => "Administrator",
+      # "password" => "fr3sca",
+      # "vcenter_host" => "192.168.100.174",
+      # "vcenter_datacenter" => "Pune-Opscode-001",
+      # "vcenter_cluster" => "Cluster-001",
+      "clustername" => "XenCluster-001",
+      "hypervisor" => "XenServer",
 
+      "hosts" => [{
+        "ipaddress" => "192.168.100.210",
+        "username" => "root",
+        "password" => "fr3sca",
+        "hosttags" => "",
+        }]
     }]
 }
 ]
@@ -73,8 +78,8 @@ default['zone']['public_ip_ranges'] = [{
 
 default['zone']['sec_storages'] = [
   {
-    "nfs_server" => "10.40.97.79",
-    "path" => "/export"
+    "nfs_server" => "192.168.100.229",
+    "path" => "/media/usbdrive/nfs2"
   }
 
 ]
