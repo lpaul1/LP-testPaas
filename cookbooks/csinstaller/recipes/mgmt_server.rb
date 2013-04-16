@@ -97,6 +97,7 @@ script "install system VM template" do
       /mnt/secondary -u http://download.cloud.com/templates/acton/acton-systemvm-02062012.ova\
       -h vmware
   EOH"
+  environment node['cloudstack_install']['env']
 end
 
 ruby_block "sleep" do

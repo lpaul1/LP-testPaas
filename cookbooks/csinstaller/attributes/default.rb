@@ -22,6 +22,8 @@ default['cloudstack_version'] = "3.0.6-1-rhel6.2"
 default['cloudstack_installer'] = "/home/lp03306/CloudStack-#{default['cloudstack_trial']}.tar.gz"
 default['cloudstack_tempdir'] = "/tmp"
 
+default['cloudstack_install']['env'] = { 'http_proxy' => 'http://webproxy.ssmb.com:8080' }
+
 default['download_url'] = "http://localhost"
 default['zone']['name'] = "Opscode-Zone-001"
 default['zone']['network_type'] = 'Advanced'
